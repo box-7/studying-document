@@ -1,0 +1,75 @@
+# ドキュメントオブジェクトモデル (DOM)
+
+ドキュメントオブジェクトモデル (Document Object Model, DOM) は、ウェブページの HTML や XML などの文書構造をメモリ上に表現し、スクリプトやプログラミング言語から操作できる仕組み。通常は JavaScript で操作する。
+
+---
+
+## 特徴
+
+- 文書を **ツリー構造** で表現。  
+  - ツリーの枝はノードで終わり、各ノードがオブジェクトを持つ
+- **DOM メソッド** でプログラム的にツリーにアクセス可能  
+  - 文書構造、スタイル、コンテンツを変更できる
+- ノードに **イベントハンドラー** を割り当て可能  
+  - イベント発生時にハンドラーが実行される
+
+---
+## DOM インターフェイス一覧（よく使うものに印付き）
+
+| インターフェイス | 役割 |
+|-----------------|------|
+| `AbortController` | 非同期操作をキャンセルするためのコントローラー |
+| `AbortSignal` | `AbortController` と連携するシグナルオブジェクト |
+| `AbstractRange` | 範囲オブジェクトの抽象基底クラス |
+| `Attr` | 要素の属性を表すオブジェクト |
+| `CDATASection` | XML の CDATA セクションを表すノード |
+| `CharacterData` | テキストノードやコメントノードの共通基底クラス |
+| `Comment` | コメントノードを表す |
+| `CustomEvent` | 独自のカスタムイベントを作成する |
+| 🚀 **`Document`** | HTML/XML 文書全体を表す |
+| 🚀 **`DocumentFragment`** | DOM ツリーの軽量な断片 |
+| `DocumentType` | 文書型宣言 (DOCTYPE) を表す |
+| `DOMError` | **非推奨** エラーオブジェクト |
+| `DOMException` | DOM 操作時に発生する例外 |
+| `DOMImplementation` | DOM 実装に関する機能を提供 |
+| `DOMParser` | 文字列から XML/HTML ドキュメントを生成 |
+| `DOMPoint` | 2D/3D の座標点を表す |
+| `DOMPointReadOnly` | 読み取り専用の座標点オブジェクト |
+| `DOMRect` | 四角形領域を表す（座標とサイズ） |
+| `DOMTokenList` | クラス属性などのトークンリストを操作 |
+| 🚀 **`Element`** | HTML/XML 要素を表す基本クラス |
+| `Event` | イベントオブジェクトの基本クラス |
+| 🚀 **`EventTarget`** | イベントを受け取る対象 |
+| `HTMLCollection` | HTML 要素のライブコレクション |
+| `MutationObserver` | DOM の変更を監視する |
+| `MutationRecord` | 変更の詳細を表すレコード |
+| `NamedNodeMap` | 属性ノードのコレクション |
+| 🚀 **`Node`** | DOM の基本ノードクラス |
+| `NodeIterator` | ノードを順に辿るイテレーター |
+| `NodeList` | ノードのリスト |
+| `ProcessingInstruction` | XML 処理命令ノード |
+| `Range` | 文書内の範囲を表す |
+| `StaticRange` | 読み取り専用の範囲 |
+| 🚀 **`Text`** | テキストノード |
+| `TextDecoder` | バイナリデータを文字列に変換 |
+| `TextEncoder` | 文字列をバイナリデータに変換 |
+| `TimeRanges` | 音声/動画の再生可能範囲を表す |
+| `TreeWalker` | DOM ツリーを順に辿るためのオブジェクト |
+| `XMLDocument` | XML 文書を表す `Document` のサブクラス |
+
+---
+
+## HTML DOM
+
+HTML を含む文書は、HTML 仕様で拡張された Document インターフェイスを使用して記述される。  
+- `Element` インターフェイスは拡張され、`HTMLElement` などのサブクラスがあり、それぞれが要素や関連要素を表す。  
+- HTML DOM API によって、タブやウィンドウ、CSS スタイルやスタイルシート、ブラウザーの履歴など、ブラウザーの様々な機能にアクセス可能。  
+
+---
+
+## SVG DOM
+
+SVG を含む文書も Document インターフェイスを使用して記述され、SVG 仕様で拡張されている。  
+- `Element` インターフェイスは `SVGElement` やそのサブクラスに拡張され、各要素や密接に関連する要素の集合を表す。  
+
+

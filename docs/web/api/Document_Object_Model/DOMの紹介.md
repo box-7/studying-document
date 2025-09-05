@@ -33,27 +33,19 @@ alert(paragraphs[0].nodeName);
 - 文書内のすべての要素（文書全体、`head`、表、セルのテキストなど）は DOM の一部として表現される
 - JavaScript を通して DOM の要素にアクセス・操作できる
 
-
-
 ### ポイント
-
 - DOM は JavaScript 言語の一部ではなく、Web API の 1 つ
 - Node.js のような他の環境では DOM API は提供されない
 - DOM は言語非依存で設計されており、どの言語からでも操作可能
   - ほとんどのウェブ開発者は JavaScript を使用
 
-
 ### DOM へのアクセス
-
 - DOM を使うのに特別なものは不要
 - ブラウザーで実行される JavaScript スクリプトから直接 API にアクセスできる
 - `document` や `window` オブジェクトを通じて、文書や要素を操作できる
 - コンソールへのメッセージ表示のような簡単な操作でも DOM プログラミングの開始になる
 
-
-
 ### 簡単な例（console.log）
-
 ```html
 <html lang="en">
   <head>
@@ -74,14 +66,10 @@ alert(paragraphs[0].nodeName);
 <br>
 
 # 基本的なデータ型
-
 - DOM コードの多くは HTML 文書の操作が中心  
 - DOM 内のノードを「要素」と呼ぶことが多いが、すべてのノードが要素ではない
 
-
-
 ### データ型と説明
-
 | データ型 (インターフェイス) | 説明 |
 |----------------------------|------|
 | `Document` | `document` 型のオブジェクト。要素の `ownerDocument` 属性などで取得されるルートの document オブジェクト |
@@ -91,22 +79,33 @@ alert(paragraphs[0].nodeName);
 | `Attr` | 属性ノード。`createAttribute()` などで取得される特別なオブジェクト。要素のような DOM ノードだが使用頻度は少ない |
 | `NamedNodeMap` | 名前または添字でアクセス可能な配列のようなオブジェクト。順序は保証されず、`item()` メソッドで列挙や追加・削除が可能 |
 
+# DOM におけるノードの種類（主なもの）
+
+- **ドキュメントノード**: `document` オブジェクトそのもの。ツリーの最上位にあるルート。
+
+- **要素ノード**: `<html>`, `<body>`, `<div>` などのタグ要素。
+
+- **テキストノード**: 要素の中の文字列。例: `<p>Hello</p>` の `"Hello"`。
+
+- **属性ノード**: 要素の属性。例: `<img src="a.png">` の `src="a.png"`。  
+Attr  
+href="https://example.com" → 属性ノード  
+class="link" → 属性ノード
+
+- **コメントノード**: `<!-- comment -->`。
+
 
 ### 用語の注意
-
 - `Attr` ノードを単に attribute と呼ぶことがある  
 - DOM ノードの配列を `nodeList` と呼ぶことがある
 
 ### DOM のノード構造例
-
 HTML:
-
 ```html
 <p>Hello, <b>world</b>!</p>
 ```
 
 ### DOM 階層の例
-
 | ノード       | タイプ    | 説明                           |
 |-------------|----------|--------------------------------|
 | `p`         | Element  | `<p>` 要素ノード               |
@@ -120,17 +119,12 @@ HTML:
 - テキストコンテンツは Element の子として Text ノードに格納される
 
 
-
-
-
 # DOM インターフェイス
-
 - DOM 階層構造を操作するオブジェクトとインターフェイスを紹介
 - HTML 要素のプロパティは複数のインターフェイスに分かれていることがある
   - 例: `<form>` 要素には `name` が `HTMLFormElement` に、`className` が `HTMLElement` にある
 
 ### HTML 要素のプロパティが複数のインターフェイスに分かれている例
-
 ```html
 <!-- 例 -->
 <form id="myForm" name="loginForm" class="form-style"></form>
@@ -146,9 +140,7 @@ console.log(form.className); // "form-style"
 </script>
 ```
 
-
 ### インターフェイスとオブジェクトの関係
-
 - 多くのオブジェクトは複数のインターフェイスを継承
 - 例: `table` オブジェクト
   - `HTMLTableElement` インターフェイス: `createCaption()` や `insertRow()` などのメソッドを持つ
@@ -159,7 +151,6 @@ console.log(form.className); // "form-style"
 
 
 ### 例
-
 ```js
 const table = document.getElementById("table");
 

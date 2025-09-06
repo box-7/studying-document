@@ -34,16 +34,61 @@ alert(paragraphs[0].nodeName);
 - JavaScript を通して DOM の要素にアクセス・操作できる
 
 ### ポイント
-- DOM は JavaScript 言語の一部ではなく、Web API の 1 つ
+- DOM は JavaScript 言語の一部ではなく、Web API の 1 つ  
+
 - Node.js のような他の環境では DOM API は提供されない
 - DOM は言語非依存で設計されており、どの言語からでも操作可能
   - ほとんどのウェブ開発者は JavaScript を使用
+
+
+## メモ: DOM は JavaScript 言語の一部ではなく、Web API の 1 つ
+
+### 代表的な Web API
+Web API (Application Programming Interface) は、ブラウザが提供している JavaScript から使える機能のセット のこと。
+
+- **DOM API**  
+  - `document.querySelector()` や `element.addEventListener()`  
+  - HTML や要素を操作する
+
+- **Fetch API**  
+  - `fetch("https://example.com")`  
+  - ネットワーク通信をする
+
+- **Canvas API**  
+  - 2D/3D グラフィックを描画する
+
+- **Web Storage API**  
+  - `localStorage` / `sessionStorage`  
+  - ブラウザにデータを保存する
+
+- **Geolocation API**  
+  - 位置情報を取得する (`navigator.geolocation.getCurrentPosition()`)
+
+- **Web Audio API**  
+  - 音声の生成や分析をする
+
+---
 
 ### DOM へのアクセス
 - DOM を使うのに特別なものは不要
 - ブラウザーで実行される JavaScript スクリプトから直接 API にアクセスできる
 - `document` や `window` オブジェクトを通じて、文書や要素を操作できる
 - コンソールへのメッセージ表示のような簡単な操作でも DOM プログラミングの開始になる
+
+---
+
+## メモ：documentとwindowの違い
+
+### window
+- ブラウザのウィンドウ全体を表すグローバルオブジェクト。
+- ブラウザのサイズ、URL、タイマー機能（setTimeout）、ポップアップ（alert）などを管理する。
+- JavaScriptが実行される環境そのもので、`window.`を省略して呼び出すことが多い。
+
+### document
+- window内に読み込まれたHTML文書を表すオブジェクト。
+- HTML要素の取得、操作、作成、削除など、ページの内容を直接いじるためのもの。
+- DOM (Document Object Model) を通じてHTML要素にアクセスする。
+- `document`は`window`オブジェクトのプロパティの一つ。
 
 ### 簡単な例（console.log）
 ```html
@@ -65,6 +110,8 @@ alert(paragraphs[0].nodeName);
 ```
 <br>
 
+---
+
 # 基本的なデータ型
 - DOM コードの多くは HTML 文書の操作が中心  
 - DOM 内のノードを「要素」と呼ぶことが多いが、すべてのノードが要素ではない
@@ -73,11 +120,18 @@ alert(paragraphs[0].nodeName);
 | データ型 (インターフェイス) | 説明 |
 |----------------------------|------|
 | `Document` | `document` 型のオブジェクト。要素の `ownerDocument` 属性などで取得されるルートの document オブジェクト |
-| `Node` | 文書内のすべてのオブジェクトはノード。HTML 文書では要素ノード、テキストノード、属性ノードなどがある |
-| `Element` | `node` を基にした要素。`document.createElement()` で生成され、DOM の Element インターフェイスと Node インターフェイスを実装。HTML 文書ではさらに `HTMLElement` や特定要素向けのインターフェイス（例: `HTMLTableElement`）で拡張 |
+| `Node` | 文書内のすべてのオブジェクトはノード。HTML 文書では要素ノード、テキストノード、属性ノードなどがある**タグ要素以外の、テキスト、コメントなど含む** |
+| `Element` | `node` を基にした要素。**タグ要素のみ。** `document.createElement()` で生成され、DOM の Element インターフェイスと Node インターフェイスを実装。HTML 文書ではさらに `HTMLElement` や特定要素向けのインターフェイス（例: `HTMLTableElement`）で拡張 |
 | `NodeList` | 要素の配列。`document.querySelectorAll()` などで取得。項目の取得方法: `list.item(1)` または `list[1]` |
 | `Attr` | 属性ノード。`createAttribute()` などで取得される特別なオブジェクト。要素のような DOM ノードだが使用頻度は少ない |
 | `NamedNodeMap` | 名前または添字でアクセス可能な配列のようなオブジェクト。順序は保証されず、`item()` メソッドで列挙や追加・削除が可能 |
+
+### 例: `<div class="test">`
+```
+<div class="test">
+<!-- <div> は Element ノード
+class="test" は Element の属性 (Attr) -->
+```
 
 # DOM におけるノードの種類（主なもの）
 
@@ -143,31 +197,64 @@ console.log(form.className); // "form-style"
 ### インターフェイスとオブジェクトの関係
 - 多くのオブジェクトは複数のインターフェイスを継承
 - 例: `table` オブジェクト
-  - `HTMLTableElement` インターフェイス: `createCaption()` や `insertRow()` などのメソッドを持つ
+  - `HTMLTableElement` インターフェイス:  
+   `createCaption()` や `insertRow()` などのメソッドを持つ
   - `Element` インターフェイス: DOM の要素としての基本的機能
   - `Node` インターフェイス: ノードツリー内の基本ノード機能
 
 - 実際には、これらのインターフェイスを交互に自然に使うことが多い
 
+メモ:  
+インターフェイス = 機能の設計図  
+オブジェクト = 実際にその設計図を持っている存在
 
 ### 例
 ```js
 const table = document.getElementById("table");
 
-// Node/Element インターフェイス
+// table.attributes は Node/Element インターフェイスで提供される機能
+// → このインターフェイスで全ての属性を取得してループできる
 const tableAttrs = table.attributes;
 for (let i = 0; i < tableAttrs.length; i++) {
-  // HTMLTableElement インターフェイス: border 属性
+  // 各属性ノード (Attr) の名前をチェック
+  // "border" 属性を見つけたら HTMLTableElement インターフェイスのプロパティに値をセット
   if (tableAttrs[i].nodeName.toLowerCase() === "border") {
-    table.border = "1";
+    table.border = "1"; // テーブル固有の操作（HTMLTableElement の機能）
   }
 }
 
-// HTMLTableElement インターフェイス: summary 属性
-table.summary = "note: increased border";
+// HTMLTableElement インターフェイスのプロパティを直接セット
+table.summary = "note: increased border"; // table 要素にサマリー情報を追加
 ```
 
+---
 
+# メモ: DOM: attributes とは
+
+## attributes の概要
+- `attributes` は、DOM の **全ての属性ノード (Attr)** を格納している  
+  **`NamedNodeMap`** という特殊なコレクション。
+- 配列のようにインデックスでアクセスできるが、  
+  実際には配列ではなく `NamedNodeMap` オブジェクト。
+
+## 例
+
+### HTML
+```html
+<table border="0" width="100"></table>
+```
+JavaScript
+```js
+const table = document.querySelector("table");
+console.log(table.attributes);
+```
+結果  
+border="0", width="100" などの属性が入った NamedNodeMap を取得できる。  
+中身はそれぞれ Attr ノード で、次のようなプロパティを持つ:  
+nodeName : 属性名（例: "border", "width"）  
+nodeValue: 属性値（例: "0", "100"）
+
+---
 
 ## DOM の中で核となるインターフェイス
 
@@ -264,6 +351,31 @@ clearText.addEventListener("click", () => {
   - Node の型は **Text**
 
 
+### メモ: HTML要素と対応するDOMインターフェイス
+
+DOM では、HTML の各要素ごとに対応するインターフェイスが用意されている。  
+`HTMLTextAreaElement` は `<textarea>` 専用ですが、他の要素にも同じように専用のインターフェイスがある。
+
+| HTML要素 | インターフェイス | 備考 |
+|----------|----------------|------|
+| `<div>` | `HTMLDivElement` | 汎用ブロック要素 |
+| `<span>` | `HTMLSpanElement` | インライン要素 |
+| `<img>` | `HTMLImageElement` | 画像専用 |
+| `<a>` | `HTMLAnchorElement` | ハイパーリンク専用 |
+| `<h1>`〜`<h6>` | `HTMLHeadingElement` | 見出し用 |
+| `<p>` | `HTMLParagraphElement` | 段落 |
+| `<ul>` / `<ol>` | `HTMLUListElement` / `HTMLOListElement` | リスト |
+| `<li>` | `HTMLLIElement` | リスト項目 |
+| `<form>` | `HTMLFormElement` | フォーム |
+| `<input>` | `HTMLInputElement` | 入力欄 |
+| `<button>` | `HTMLButtonElement` | ボタン |
+| `<textarea>` | `HTMLTextAreaElement` | 複数行入力欄 |
+| `<table>` | `HTMLTableElement` | テーブル |
+| `<tr>` / `<td>` / `<th>` | `HTMLTableRowElement` / `HTMLTableCellElement` | テーブル行・セル |
+| `<script>` | `HTMLScriptElement` | スクリプトタグ |
+| `<link>` | `HTMLLinkElement` | CSSなどの外部リンク |
+
+
 ### 2. 子要素の追加・除去
 
 ### 概要
@@ -339,6 +451,24 @@ removeChild.addEventListener("click", () => {
   parent.removeChild(child);
 });
 ```
+
+
+
+インターフェイス = 型のようなもの  
+型（type）: 「この変数がどんな値を持つか」を表す概念  
+インターフェイス（interface）: 「このオブジェクトが持つ機能（メソッドやプロパティ）の設計図」  
+
+違い：  
+型: 値の種類（文字列、数値、配列など）を示す  
+インターフェイス: 「このオブジェクトはどんな機能を持つか」を示す  
+
+
+
+
+
+
+
+
 
 
 

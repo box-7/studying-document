@@ -37,7 +37,7 @@
 | `DOMPointReadOnly` | 読み取り専用の座標点オブジェクト |
 | `DOMRect` | 四角形領域を表す（座標とサイズ） |
 | `DOMTokenList` | クラス属性などのトークンリストを操作 |
-| 🚀 **`Element`** | HTML/XML 要素を表す基本クラス |
+| 🚀 **`Element`** | HTML/XML 要素 **タグのみ** を表す基本クラス |
 | `Event` | イベントオブジェクトの基本クラス |
 | 🚀 **`EventTarget`** | イベントを受け取る対象 |
 | `HTMLCollection` | HTML 要素のライブコレクション |
@@ -57,6 +57,36 @@
 | `TreeWalker` | DOM ツリーを順に辿るためのオブジェクト |
 | `XMLDocument` | XML 文書を表す `Document` のサブクラス |
 
+
+# Element と属性 (Attr) の関係例
+
+## 例: `<div class="test">`
+
+```html
+<div class="test">Hello</div>
+```
+```js
+const div = document.querySelector("div");
+
+// div は Element ノード
+console.log(div instanceof Element); // true
+
+// class属性の値を取得
+console.log(div.className);          // "test"
+console.log(div.getAttribute("class")); // "test"
+
+// <div> は Element ノード  
+// class="test" は Element の属性 (Attr)  
+// 属性ノード (Attr) として扱う例  
+```
+
+```js
+const classAttr = div.attributes.getNamedItem("class");
+
+console.log(classAttr instanceof Attr); // true
+console.log(classAttr.name);            // "class"
+console.log(classAttr.value);           // "test"
+```
 ---
 
 ## HTML DOM

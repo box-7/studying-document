@@ -18,5 +18,20 @@ HTML / CSS / JavaScript / Web APIs などをテーマごとに整理していま
 - 最新情報や公式の正確な情報は [MDN Web Docs](https://developer.mozilla.org/) をご参照ください。
 
 ## よく使うプロンプト(内容まとめ時)
-この部分のみを、md形式でわかりやすくまとめて。敬語は不要。
+
+この文章のみを Markdown 形式でわかりやすくまとめてほしい。
+敬語は不要。
+説明文はそのまま残す
+
+説明とコードを1つの Markdown コードブロック内にまとめる
+「コードをコピーする」ボタンで一度に全部貼り付けられる形にする
+ヘッダーや見出しも整理して、わかりやすくする
+
+
+        
+
+
+---
+
+[MDN: DOM の紹介](https://developer.mozilla.org/ja/docs/Web/API/Document_Object_Model/Introduction)
 

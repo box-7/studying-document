@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Apply JavaScript example</title>
+</head>
+
+<body>
+        <button>Click me</button>
+        <br>
+        <button>Click me2</button>
+        <script>
+                // JavaScript をここに書きます
+                function createParagraph() {
+                        const para = document.createElement("p");
+                        para.textContent = "ボタンが押されました!";
+                        document.body.appendChild(para);
+                }
+
+                // function createParagraph(e) {
+                //         const para = document.createElement("p");
+                //         para.textContent = "ボタンが押されました!";
+                //         e.target.appendChild(para);
+                // }
+                const buttons = document.querySelectorAll("button");
+
+                for (const button of buttons) {
+                        button.addEventListener("click", createParagraph);
+                }
+        </script>
+
+</body>
+
+</html>

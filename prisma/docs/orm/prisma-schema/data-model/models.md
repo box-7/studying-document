@@ -1,4 +1,6 @@
 ## Models（モデル）
+Prisma / docs  
+https://www.prisma.io/docs/orm/prisma-schema/data-model/models
 
 Prismaスキーマのデータモデル定義部分は、アプリケーションのモデル（Prismaモデルとも呼ばれる）を定義します。  
 

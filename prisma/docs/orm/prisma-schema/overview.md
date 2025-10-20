@@ -1,4 +1,6 @@
 ### Prisma Schema の概要
+Prisma / docs  
+https://www.prisma.io/docs/orm/prisma-schema/overview
 
 **Prisma Schema（スキーマ）** は、Prisma ORM の設定を行う中心的なファイルです。  
 スキーマは主に次の 3 つの部分で構成されます：

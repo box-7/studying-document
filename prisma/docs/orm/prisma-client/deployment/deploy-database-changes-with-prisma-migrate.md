@@ -1,4 +1,6 @@
 # Prisma Migrate でデータベースの変更をデプロイする
+Prisma / docs  
+https://www.prisma.io/docs/orm/prisma-client/deployment/deploy-database-changes-with-prisma-migrate
 
 ステージング、テスト、本番環境に保留中のマイグレーションを適用するには、CI/CD パイプラインの一部として `migrate deploy` コマンドを実行します。
 

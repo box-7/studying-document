@@ -1,4 +1,6 @@
 # SQLite でのクイックスタート
+Prisma / docs  
+https://www.prisma.io/docs/getting-started/quickstart-sqlite
 
 ## SQLite
 このクイックスタートガイドでは、**TypeScript プロジェクト** と **ローカル SQLite データベースファイル** を使って、Prisma ORM をゼロから始める方法を学びます。  

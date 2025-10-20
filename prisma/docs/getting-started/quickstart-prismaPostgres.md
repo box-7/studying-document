@@ -1,4 +1,6 @@
 # Quickstart with Prisma Postgres
+Prisma / docs  
+https://www.prisma.io/docs/getting-started/quickstart-prismaPostgres
 
 ## Prisma Postgres
 

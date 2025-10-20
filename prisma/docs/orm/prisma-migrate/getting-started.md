@@ -1,4 +1,6 @@
 # Prisma Migrate の始め方
+Prisma / docs  
+https://www.prisma.io/docs/orm/prisma-migrate/getting-started
 
 このページでは、Prisma Migrate を使って開発環境でスキーマをマイグレーションする方法を説明します。
 
@@ -9,7 +11,8 @@
 
 ### 1. Create a Prisma schema:
 ```
-schema.prisma
+// schema.prisma
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -86,6 +89,12 @@ migrations/
 - ベースラインマイグレーションを適用する
 - マイグレーション履歴と Prisma スキーマをコミットする
 
+**自分メモ**  
+既存 DB に Prisma を導入する場合は「イントロスペクト（db pull）で既存スキーマを取り込み  
+→内容を確認・必要なら修正  
+→（必要なら）ベースラインマイグレーションを作成  
+→本番で非対話的に適用  
+→Prisma Client を生成」という流れ
 
 ### Prisma スキーマの作成または更新のためのインスペクション
 

@@ -1,5 +1,6 @@
 # Prisma ORM の紹介
-
+Prisma / docs  
+https://www.prisma.io/docs/orm/overview/introduction
 このページでは、**Prisma ORM** が何であり、どのように動作するかについての概要を説明します。
 
 実践的なチュートリアルで Prisma Client API を学びたい場合は、  

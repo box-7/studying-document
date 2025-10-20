@@ -3,17 +3,16 @@
 このページでは、**Prisma ORM** が何であり、どのように動作するかについての概要を説明します。
 
 実践的なチュートリアルで Prisma Client API を学びたい場合は、  
-[Getting Started（はじめに）](https://www.prisma.io/docs/getting-started) ドキュメントをご覧ください。
+[Getting Started（はじめに）]ドキュメントをご覧ください。
 
 Prisma ORM の設計思想や背景を知りたい場合は、  
-[Why Prisma ORM?（なぜ Prisma ORM なのか）](https://www.prisma.io/docs/orm/overview/why-prisma-orm) ページを参照してください。
+[Why Prisma ORM?（なぜ Prisma ORM なのか）]ページを参照してください。
 
 ---
 
 ## このセクションの内容
 
 ### What is Prisma ORM?（Prisma ORM とは？）
-[Prisma ORM とは？](./prisma/docs/orm/overview/what-is-prisma.md)
 
 **Prisma ORM** は、オープンソースの「次世代型 ORM（Object Relational Mapper）」です。  
 主に以下のコンポーネントから構成されています：

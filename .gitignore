@@ -1,1 +1,14 @@
 .DS_Store
+
+# Node.js
+node_modules/
+
+# npm logs
+npm-debug.log*
+
+# package-lock（必要に応じて）
+# package-lock.json
+
+# hono/sample用
+hono/sample/node_modules/
+

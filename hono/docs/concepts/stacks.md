@@ -1,29 +1,22 @@
-# 🧱 Hono Stacks（ホノ・スタック）
 
-**Hono** は「簡単なことを簡単に、難しいことも簡単に」できるフレームワークです。  
-単に JSON を返すだけでなく、REST API サーバーやクライアントを含む  
-**フルスタックアプリケーションの構築**にも適しています。
+### RPC（リモートプロシージャコール）
 
----
-
-## ⚡ RPC（リモートプロシージャコール）
-
-Hono の RPC 機能を使うと、コードをほとんど変更せずに API 仕様を共有できます。  
-`hc` によって生成されるクライアントは、API 仕様を読み取り、**型安全にエンドポイントへアクセス**します。
+RPC（Remote Procedure Call）とは？
+RPC = リモートプロシージャコール
+「遠くのサーバー上の関数を、自分のプログラム内からまるでローカル関数のように呼び出す仕組み」
 
 ### Hono Stack を構成する主なライブラリ
 
-- **Hono**：API サーバー  
-- **Zod**：バリデーションライブラリ  
-- **Zod Validator Middleware**：Zod 用ミドルウェア  
-- **hc**：HTTP クライアント  
+- **Hono**：API サーバー
+- **Zod**：バリデーションライブラリ
+- **Zod Validator Middleware**：Zod 用ミドルウェア
+- **hc**：HTTP クライアント
 
-これらを組み合わせたものが **Hono Stack** です。  
+これらを組み合わせたものが **Hono Stack** です。
+
 ここでは、API サーバーとクライアントの実装を見ていきます。
 
----
-
-## 🚀 API の作成
+## API の作成
 
 まず、GET リクエストを受け取り JSON を返すエンドポイントを定義します。
 ```
@@ -39,7 +32,7 @@ app.get('/hello', (c) => {
 ```
 ---
 
-## ✅ Zod によるバリデーション
+## Zod によるバリデーション
 
 クエリパラメータの値を **Zod** を使って検証します。  
 ```
@@ -62,15 +55,30 @@ app.get(
   }
 )
 ```
+- app.get('/hello', ...)
+/hello という URL に GET リクエストが来たときに処理されるルートを定義
+
+- zValidator('query', z.object({ name: z.string() }))
+query パラメータをバリデーションする
+例えば /hello?name=Taro の場合
+name が文字列であることを検証
+バリデーションに失敗した場合は、Hono が自動で 400 Bad Request を返す
+
+- ハンドラー (c) => { ... }
+実際のリクエスト処理を行う関数
+c.req.valid('query') で、バリデーション済みの値を取得
+この場合は { name: string } 型が保証されている
+c.json({...}) で JSON レスポンスを返す
+
 
 ---
 
-## 🔗 型の共有
+## 型の共有
 
 エンドポイントの仕様を共有するために、型をエクスポートします。
 
-⚠️ **注意**  
-RPC がルートを正しく推論するためには、  
+**注意**
+RPC がルートを正しく推論するためには、
 メソッドをチェーンし、エンドポイントまたはアプリの型を**変数から推論**させる必要があります。
 ```
 const route = app.get(
@@ -89,15 +97,39 @@ const route = app.get(
   }
 )
 
+// 型の共有
 export type AppType = typeof route
 ```
----
+```
+→ client_get, client_postなど、1つ1つに型をつけていくと良い？
+app.get(
+  '/hello',
+  zValidator(
+    'query',
+    z.object({
+      name: z.string(),
+    })
+  ),
+  (c) => {
+    const { name } = c.req.valid('query')
+    return c.json({
+      message: `Hello! ${name}`,
+    })
+  }
+)
 
-## 💬 クライアントの実装
 
-次にクライアント側です。  
-`AppType` をジェネリクスとして渡してクライアントを生成すると、  
+
+// 型の共有
+export type AppType = typeof app
+```
+
+### クライアントの実装
+
+次にクライアント側です。
+`AppType` をジェネリクスとして渡してクライアントを生成すると、
 エンドポイントパスやリクエスト型が**補完される**ようになります。
+
 ```
 import { AppType } from './server'
 import { hc } from 'hono/client'
@@ -109,6 +141,7 @@ const res = await client.hello.$get({
   },
 })
 ```
+
 レスポンスは Fetch API と互換性がありますが、`json()` で取得するデータには**型が付きます**。
 ```
 const data = await res.json()
@@ -118,11 +151,11 @@ console.log(`${data.message}`)
 
 ---
 
-## ⚛️ React との統合例
+## React との統合例
 
 Cloudflare Pages 上で、React を用いたアプリケーションを作成することもできます。
 
-### 📡 API サーバー（functions/api/[[route]].ts）
+### API サーバー（functions/api/[[route]].ts）
 ```
 // functions/api/[[route]].ts
 import { Hono } from 'hono'
@@ -140,6 +173,11 @@ const schema = z.object({
 type Todo = z.infer<typeof schema>
 
 const todos: Todo[] = []
+
+
+// 'form'
+// リクエストボディが application/x-www-form-urlencoded または multipart/form-data の場合
+// title=foo&id=123
 
 const route = app
   .post('/todo', zValidator('form', schema), (c) => {
@@ -161,7 +199,7 @@ export const onRequest = handle(app, '/api')
 ```
 ---
 
-### 💻 クライアント（React + React Query）
+### クライアント（React + React Query）
 
 React 側では、`@tanstack/react-query` と Hono クライアントを組み合わせます。
 ```
@@ -240,5 +278,4 @@ const Todos = () => {
 ```
 ---
 
-🕓 **最終更新日:** 2025/10/29 15:46  
-📘 **編集:** Edit this page on GitHub
+

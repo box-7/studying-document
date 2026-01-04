@@ -1,108 +1,45 @@
+# Web 標準と Hono
 
-🚀 Hono を使うとどうなるか
+Hono は **Fetch API のような Web 標準のみ** を使用して構築されています。  
+Web 標準 API は、HTTP リクエストを処理する基本的なオブジェクトで構成されており、主に以下のものがあります。
 
-同じ処理を Hono で書くとこうです👇
-```
-import { Hono } from 'hono'
-
-const app = new Hono()
-
-app.get('/hello', (c) => c.text('Hello World'))
-app.get('/users', (c) => c.json([{ id: 1, name: 'Tori' }]))
-
-export default app
-```
-
-- URLごとに .get(), .post() などで簡単にルートを定義できる
-- c.text(), c.json() でレスポンスをシンプルに記述できる
-- Middleware（認証・ログ・CORS対応など）を柔軟に追加できる
-- Deno / Bun / Cloudflare / Node.js など、どの環境でも同じコードで動作する
-
-Web標準（生のFetch API）だけで作る場合
-```
-export default {
-  async fetch(request) {
-    const url = new URL(request.url)
-
-    if (url.pathname === '/hello') {
-      return new Response('Hello World')
-    } else if (url.pathname === '/users') {
-      return new Response(JSON.stringify([{ id: 1, name: 'Tori' }]), {
-        headers: { 'Content-Type': 'application/json' },
-      })
-    } else {
-      return new Response('Not Found', { status: 404 })
-    }
-  },
-}
-```
-
-
-# Web Standards（ウェブ標準）
-
-Hono は **Fetch API** をはじめとする **Web 標準（Web Standards）** のみを利用しています。  
-これらはもともと `fetch()` 関数で使われていたもので、HTTP リクエストやレスポンスを扱うための基本的なオブジェクト群です。
-
-代表的な Web 標準オブジェクトとしては、以下のものがあります。
-
-- **Request**
-- **Response**
-- **URL**
-- **URLSearchParams**
-- **Headers**
+- `Request` / `Response`  
+- `URL`  
+- `URLSearchParams`  
+- `Headers`  
 
 ---
 
-## 例：「Hello World」を返すサーバー
+## Web 標準上での動作
 
-以下のコードは、Cloudflare Workers や Bun 上で動作する「Hello World」サーバーの例です。
+Cloudflare Workers、Deno、Bun などは **Web 標準 API 上に構築** されています。  
 
-このサンプルコードは Web 標準のみを使用しています。
+たとえば、"Hello World" を返すサーバーは以下のように書くことができます（Cloudflare Workers / Bun で動作）。
 
-```javascript
+```ts
 export default {
   async fetch() {
     return new Response('Hello World')
   },
 }
 ```
-このように、Web 標準だけで構築されたコードは、環境に依存せず動作します。
 
-## 対応ランタイム
+# Hono の特徴
 
-Hono は Web 標準をベースにしているため、Web 標準をサポートするあらゆるランタイムで動作します。  
-さらに **Node.js 用のアダプタ** も用意されています。
+- Hono は **Web 標準 API のみ** を使用しているため、Web 標準をサポートするあらゆるランタイムで動作します。  
+- Node.js など従来のサーバー環境でも動作可能です。
 
 ### Hono が動作する主なランタイム
-
-- Cloudflare Workers（workerd）  
+- Cloudflare Workers (workerd)  
 - Deno  
 - Bun  
 - Fastly Compute  
 - AWS Lambda  
 - Node.js  
-- Vercel（edge-light）  
-- Netlify（その他プラットフォームも対応）
-
-同じコードがすべての環境で動作します。
-
-自分メモ
-```
-ランタイム（runtime） は、
-プログラムを 実際に動かすための実行環境 のこと
-```
----
-
-## Web 標準化への取り組み
-
-Cloudflare Workers、Deno、Shopify などの企業は、  
-**WinterCG（Winter Community Group）** を立ち上げ、  
-Web 標準を基盤にした **Web 相互運用性（web-interoperability）** の実現を議論しています。
-
-Hono もこの流れに沿って開発されており、  
-**“Web 標準のスタンダード”** となることを目指しています。
+- Vercel (edge-light)  
+- WebAssembly (w/ WebAssembly System Interface (WASI) via wasi:http)  
 
 ---
 
-📘 **Edit this page on GitHub**  
-🕓 **最終更新日:** 2025/10/29 15:46
+ランタイム（runtime）:
+プログラムを実際に動かすための実行環境 のこと
